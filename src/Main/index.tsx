@@ -1,7 +1,11 @@
-import { Text } from '../components/Text';
+import { Container } from './styles';
+
+import { Header } from '../components/Header';
 
 export const Main = () => {
   return (
-    <Text>Main Renderizou</Text>
+    <Container>
+      <Header />
+    </Container>
   );
 };
