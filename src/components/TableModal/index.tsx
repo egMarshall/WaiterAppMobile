@@ -16,7 +16,8 @@ export function TableModal({visible, onClose, onSave}: TableModalProps) {
 
   const [table, setTable] = useState('');
 
-  function handleSave(table: string) {
+  function handleSave() {
+    setTable('');
     onSave(table);
     onClose();
   }
@@ -47,7 +48,7 @@ export function TableModal({visible, onClose, onSave}: TableModalProps) {
           </Form>
 
           <Button
-            onPress={() => handleSave}
+            onPress={handleSave}
             disabled={table.length === 0}
           >
             Salvar
