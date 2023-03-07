@@ -10,7 +10,11 @@ import { Text } from '../Text';
 
 import { ProductContainer, ProductImage, ProductDetails, Separator, AddToCartButton } from './styles';
 
-export function Menu() {
+interface MenuProps {
+  onAddToCart: (product: Product) => void;
+}
+
+export function Menu({ onAddToCart }: MenuProps) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<null | Product>(null);
 
@@ -25,6 +29,7 @@ export function Menu() {
         visible={isModalVisible}
         onClose={() => setIsModalVisible(false)}
         product={selectedProduct}
+        onAddToCart={onAddToCart}
       />
       <FlatList
         data={products}
@@ -53,7 +58,9 @@ export function Menu() {
             </ProductDetails>
 
             <AddToCartButton>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => onAddToCart(product)}
+              >
                 <PlusCircle/>
               </TouchableOpacity>
             </AddToCartButton>

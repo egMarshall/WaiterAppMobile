@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { FlatList, Modal } from 'react-native';
 import { Product } from '../../types/Product';
 import { formatCurrency } from '../../utils/formatCurrency';
@@ -19,10 +20,16 @@ interface ProductModalProps {
   visible: boolean;
   onClose: () => void;
   product: null | Product;
+  onAddToCart: (product: Product) => void;
 }
 
-export function ProductModal({visible, onClose, product}: ProductModalProps) {
+export function ProductModal({visible, onClose, product, onAddToCart}: ProductModalProps) {
   if (!product) return null;
+
+  function handleAddToCart() {
+    onAddToCart(product!);
+    onClose();
+  }
 
   return (
     <Modal
@@ -78,7 +85,7 @@ export function ProductModal({visible, onClose, product}: ProductModalProps) {
             <Text size={20} weight="600">{formatCurrency(product.price)}</Text>
           </PriceContainer>
 
-          <Button onPress={() => alert('Adicionado ao pedido')}>
+          <Button onPress={handleAddToCart}>
             Adicionar ao pedido
           </Button>
         </FooterContainer>
