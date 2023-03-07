@@ -9,6 +9,11 @@ export const Container = styled.SafeAreaView`
   background: #fafafa;
 `;
 
+export const CenteredContainer = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`;
 
 export const CategoriesContainer = styled.View`
   height: 73px;

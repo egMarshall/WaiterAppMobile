@@ -1,6 +1,12 @@
 import { useState } from 'react';
 
-import { Container, CategoriesContainer, MenuContainer, Footer, FooterContainer } from './styles';
+import {
+  Container,
+  CategoriesContainer,
+  MenuContainer,
+  Footer,
+  FooterContainer,
+  CenteredContainer } from './styles';
 
 import { Header } from '../components/Header';
 import { Categories } from '../components/Categories';
@@ -10,11 +16,18 @@ import { TableModal } from '../components/TableModal';
 import { Cart } from '../components/Cart';
 import { CartItem } from '../types/CartItem';
 import { Product } from '../types/Product';
+import { ActivityIndicator } from 'react-native';
+
+import { products as mockProducts} from '../mocks/products';
+import { Empty } from '../components/Icons/Empty';
+import { Text } from '../components/Text';
 
 export const Main = () => {
   const [isTableModalVisible, setTableModalVisible] = useState(false);
   const [selectedTable, setSelectedTable] = useState('');
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [products, setProducts] = useState<Product[]>(mockProducts);
 
 
   function handleSaveTable(table: string) {
@@ -85,23 +98,46 @@ export const Main = () => {
           onCancelOrder={handleFinishOrder}
         />
 
-        <CategoriesContainer>
-          <Categories />
-        </CategoriesContainer>
+        {isLoading && (
+          <CenteredContainer>
+            <ActivityIndicator size="large" color="#D73035"/>
+          </CenteredContainer>
+        )}
 
-        <MenuContainer>
-          <Menu
-            onAddToCart={handleAddToCart}
-          />
-        </MenuContainer>
+        {!isLoading && (
+          <>
+            <CategoriesContainer>
+              <Categories />
+            </CategoriesContainer>
+
+            {products.length > 0 ? (
+              <MenuContainer>
+                <Menu
+                  onAddToCart={handleAddToCart}
+                  products={products}
+                />
+              </MenuContainer>
+            ) : (
+              <CenteredContainer>
+                <Empty />
+                <Text color="#666" style={{ marginTop: 24 }}>
+                  Nenhum produto foi encontrado!
+                </Text>
+              </CenteredContainer>
+            )}
+          </>
+        )}
 
       </Container>
 
       <Footer>
         <FooterContainer>
           {!selectedTable && (
-            <Button onPress={() => setTableModalVisible(true)}>
-                      Novo Pedido
+            <Button
+              onPress={() => setTableModalVisible(true)}
+              disabled={isLoading}
+            >
+                Novo Pedido
             </Button>
           )}
 
