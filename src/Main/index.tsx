@@ -22,8 +22,9 @@ export const Main = () => {
     setTableModalVisible(false);
   }
 
-  function handleCancelTable() {
+  function handleFinishOrder() {
     setSelectedTable('');
+    setCartItems([]);
   }
 
   function handleAddToCart(product: Product) {
@@ -81,7 +82,7 @@ export const Main = () => {
 
         <Header
           selectedTable={selectedTable}
-          onCancelOrder={handleCancelTable}
+          onCancelOrder={handleFinishOrder}
         />
 
         <CategoriesContainer>
@@ -109,6 +110,7 @@ export const Main = () => {
               cartItems={cartItems}
               onAdd={handleAddToCart}
               onRemove={handleDecrementCartItem}
+              onConfirmOrder={handleFinishOrder}
             />
           )}
         </FooterContainer>
