@@ -1,4 +1,6 @@
-import { useState } from 'react';
+/* eslint-disable @typescript-eslint/no-var-requires */
+import { useEffect, useState } from 'react';
+import { api } from '../utils/api';
 
 import {
   Container,
@@ -6,7 +8,8 @@ import {
   MenuContainer,
   Footer,
   FooterContainer,
-  CenteredContainer } from './styles';
+  CenteredContainer
+} from './styles';
 
 import { Header } from '../components/Header';
 import { Categories } from '../components/Categories';
@@ -18,7 +21,6 @@ import { CartItem } from '../types/CartItem';
 import { Product } from '../types/Product';
 import { ActivityIndicator } from 'react-native';
 
-import { products as mockProducts} from '../mocks/products';
 import { Empty } from '../components/Icons/Empty';
 import { Text } from '../components/Text';
 
@@ -26,9 +28,36 @@ export const Main = () => {
   const [isTableModalVisible, setTableModalVisible] = useState(false);
   const [selectedTable, setSelectedTable] = useState('');
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [products, setProducts] = useState<Product[]>(mockProducts);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingCategories, setIsLoadingCategories] = useState(false);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState([]);
 
+  useEffect(() => {
+    Promise.all([
+      api.get('/categories'),
+      api.get('/products'),
+    ]).then(([categoriesResponse, productsResponse]) => {
+      setCategories(categoriesResponse.data);
+      setProducts(productsResponse.data);
+      setIsLoading(false);
+    });
+  }, []);
+
+  async function handleSelectCategory(categoryId: string) {
+    const route = !categoryId
+      ? '/products'
+      : `/categories/${categoryId}/products`;
+
+    setIsLoadingCategories(true);
+
+    await api.get(route)
+      .then((response) => {
+        setProducts(response.data);
+      });
+
+    setIsLoadingCategories(false);
+  }
 
   function handleSaveTable(table: string) {
     setSelectedTable(table);
@@ -107,23 +136,34 @@ export const Main = () => {
         {!isLoading && (
           <>
             <CategoriesContainer>
-              <Categories />
+              <Categories
+                categories={categories}
+                onSelectCategory={handleSelectCategory}
+              />
             </CategoriesContainer>
 
-            {products.length > 0 ? (
-              <MenuContainer>
-                <Menu
-                  onAddToCart={handleAddToCart}
-                  products={products}
-                />
-              </MenuContainer>
-            ) : (
+            {isLoadingCategories ? (
               <CenteredContainer>
-                <Empty />
-                <Text color="#666" style={{ marginTop: 24 }}>
-                  Nenhum produto foi encontrado!
-                </Text>
+                <ActivityIndicator size="large" color="#D73035"/>
               </CenteredContainer>
+            ) : (
+              <>
+                {products.length > 0 ? (
+                  <MenuContainer>
+                    <Menu
+                      onAddToCart={handleAddToCart}
+                      products={products}
+                    />
+                  </MenuContainer>
+                ) : (
+                  <CenteredContainer>
+                    <Empty />
+                    <Text color="#666" style={{ marginTop: 24 }}>
+                    Nenhum produto foi encontrado!
+                    </Text>
+                  </CenteredContainer>
+                )}
+              </>
             )}
           </>
         )}
@@ -147,6 +187,7 @@ export const Main = () => {
               onAdd={handleAddToCart}
               onRemove={handleDecrementCartItem}
               onConfirmOrder={handleFinishOrder}
+              selectedTable={selectedTable}
             />
           )}
         </FooterContainer>
