@@ -7,7 +7,7 @@ auxiliando da maneira a qual os produtos são anotados e enviados para produçã
   - Selecionar a mesa;
   - Selecionar produtos e suas respectivas quantidades;
   - Enviar para o sistema web ou cancelar o pedido.
-  
+
 Pelo sistema web, é possível:
   - Alterar o status para produção ou concluído;
   - Cancelar o pedido.
@@ -31,3 +31,8 @@ $ cd WaiterAppMobile
 $ yarn
 $ yarn start
 ```
+
+* Prints do Projeto
+![Screenshot](printScreens/Simulator%20Screen%20Shot%20-%20iPhone%2014%20Pro%20-%202023-03-09%20at%2011.22.28.png)
+![Screenshot](printScreens/Simulator%20Screen%20Shot%20-%20iPhone%2014%20Pro%20-%202023-03-09%20at%2011.22.49.png)
+![Screenshot](printScreens/Simulator%20Screen%20Shot%20-%20iPhone%2014%20Pro%20-%202023-03-09%20at%2011.24.26.png)
