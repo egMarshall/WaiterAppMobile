@@ -33,6 +33,11 @@ $ yarn start
 ```
 
 * Prints do Projeto
-![Screenshot](printScreens/Simulator%20Screen%20Shot%20-%20iPhone%2014%20Pro%20-%202023-03-09%20at%2011.22.28.png)
-![Screenshot](printScreens/Simulator%20Screen%20Shot%20-%20iPhone%2014%20Pro%20-%202023-03-09%20at%2011.22.49.png)
-![Screenshot](printScreens/Simulator%20Screen%20Shot%20-%20iPhone%2014%20Pro%20-%202023-03-09%20at%2011.24.26.png)
+
+  <div>
+    <img width="150px" src="printScreens/Simulator%20Screen%20Shot%20-%20iPhone%2014%20Pro%20-%202023-03-09%20at%2011.22.28.png"/>
+    <img width="150px" src="printScreens/Simulator%20Screen%20Shot%20-%20iPhone%2014%20Pro%20-%202023-03-09%20at%2011.22.49.png"/>
+    <img width="150px" src="printScreens/Simulator%20Screen%20Shot%20-%20iPhone%2014%20Pro%20-%202023-03-09%20at%2011.24.26.png"/>
+  </div>
+
+
